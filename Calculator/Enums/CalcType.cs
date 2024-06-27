@@ -11,6 +11,8 @@ namespace Calculator
         addition,
         subtract,
         multiply,
-        divide
+        divide,
+        equate,
+        none
     }
 }

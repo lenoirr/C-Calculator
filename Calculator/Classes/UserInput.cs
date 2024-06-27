@@ -16,35 +16,44 @@ namespace Calculator
     // Create input class to track length, required percision, etc. 
     internal static class UserInput
     {
-        private static bool inputIsNegative = false;
+        //private static bool inputIsNegative = false;
         private static string inputDisplay1 = "0";
-        private static string outputDisplay = null;
         private static DataType dataType;
 
+        private static int inputCount = 0;
+        public static List<dynamic> inputList = new List<dynamic>();
+
+        private static CalcType currentCalculation = CalcType.none;
 
         public static string InputDisplay1
         {
             get { return inputDisplay1; } private set { inputDisplay1 = value; }
         }
 
-        public static string OutputDisplay
-        {
-            get { return outputDisplay; } private set { outputDisplay = value; }
-        }
 
         public static string UpdateDisplay(char num)
         {
+            if (UserInput.currentCalculation == CalcType.equate)
+            {
+                EmptyDisplay();
+                currentCalculation = CalcType.none;
+            }
             if (InputDisplay1 == "0")
             {
                 EmptyDisplay();
             }
-                InputDisplay1 += num;
+
+            InputDisplay1 += num;
                 return InputDisplay1;
         }
 
+
         public static string UpdateDisplay(Number number)
         {
+            if (UserInput.currentCalculation == CalcType.equate) {currentCalculation = CalcType.none;}
+            
             InputDisplay1 = number.ToString();
+            //currentCalculation = CalcType.none;
             return InputDisplay1;
         }
 
@@ -64,6 +73,7 @@ namespace Calculator
 
         public static string DeleteLastChar()
         {
+            bool inputIsNegative = IsNegative();
 
             if (InputDisplay1 != "0")
             {
@@ -79,46 +89,87 @@ namespace Calculator
             return InputDisplay1;
         }
 
-        public static string NegateInput()
+        public static string NegateInput(string val)
         {
-            if (InputDisplay1 == "0")
+            bool inputIsNegative = IsNegative();
+            if (val == "0")
             {
-                return InputDisplay1;
+                return val;
             }
             if (inputIsNegative)
             {
-                InputDisplay1 = InputDisplay1.Substring(1);
-                inputIsNegative = false;
+                val = val.Substring(1);
             }
             else
             {
-                InputDisplay1 = "-" + InputDisplay1;
-                inputIsNegative = true;
+                val = "-" + val;
             }
-            return InputDisplay1;
+            inputDisplay1 = val;
+            return inputDisplay1;
         }
         
-        static void FunctionButton(CalcType function)
+        public static bool IsNegative()
         {
-            switch (function)
+            return InputDisplay1.Contains('-');
+        }
+        public static void UpdateInputList()
+        {
+            Number lastInput = new Number();
+            lastInput.NumberConverter(InputDisplay1);
+            inputList.Add(lastInput.number);
+
+        }
+
+        public static void AdditionHandler ()
+        {
+            if (inputList.Count < 2)    // if not pressed 
+            {
+                
+            
+                if (currentCalculation == CalcType.none || currentCalculation == CalcType.equate)    // 1 + type handler
+                {
+                    UpdateInputList();  // should fill inputList[0]
+                    ClearDisplay();     // TODO: I have to finish this outside of the function
+                    currentCalculation = CalcType.addition;
+                }
+                else // 1+ 1 = 2 + type handler with any other calculation type
+                {
+                    EquateHandler();
+                }
+            }
+    }
+
+        public static void EquateHandler()
+        {
+            Number result = new Number();   // creates null instance of result;
+            UpdateInputList(); // updating inputList[1]
+            if (inputList.Count != 2)
+            {
+                return;
+            }
+            switch (currentCalculation) // TODO: This typing for Number is not ideal
             {
                 case CalcType.addition:
-                    // Perform action for Zero
+                    result.NumberConverter(Calculations.PerformAdd(inputList));
                     break;
                 case CalcType.subtract:
-                    // Perform action for One
+                    result.NumberConverter(Calculations.PerformSubtract(inputList));
                     break;
                 case CalcType.multiply:
-                    // Perform action for Two
+                    result.NumberConverter(Calculations.PerformMultiply(inputList));
                     break;
                 case CalcType.divide:
-                    // Perform action for Three
+                    result.NumberConverter(Calculations.PerformDivide(inputList));
                     break;
                 default:
-                    // Handle invalid function
                     break;
             }
+            UpdateDisplay(result);   // still have to update this outside of the function
+            inputList.Clear();
+            //inputList.Add(result.number);
+            currentCalculation = CalcType.equate;
         }
+
 
     }
 }

@@ -11,43 +11,46 @@ namespace Calculator
     internal static class Calculations
     {
 
-        public static Number PerformAdd(List<Number> inputList)
+        public static dynamic PerformAdd(List<dynamic> inputList)
         {
             dynamic num;
 
-            num = inputList[0].number + inputList[1].number;
-            Number result = new Number(num);
+            num = inputList[0] + inputList[1];
+            Number result = new Number();
+            result.NumberConverter(num);
 
             Console.WriteLine(result.number.GetType().Name);
 
-            return result;
+            return result.number;
         }
 
-        public static Number PerformSubtract(List<Number> inputList)
+        public static dynamic PerformSubtract(List<dynamic> inputList)
         {
             dynamic num;
 
             num = inputList[0].number - inputList[1].number;
-            Number result = new Number(num);
+            Number result = new Number();
+            result.NumberConverter(num);
 
             Console.WriteLine(result.number.GetType().Name);
 
-            return result;
+            return result.number;
         }
 
-        public static Number PerformMultiply(List<Number> inputList)
+        public static dynamic PerformMultiply(List<dynamic> inputList)
         {
             dynamic num;
 
             num = inputList[0].number * inputList[1].number;
-            Number result = new Number(num);
+            Number result = new Number();
+            result.NumberConverter(num);
 
             Console.WriteLine(result.number.GetType().Name);
 
-            return result;
+            return result.number;
         }
 
-        public static Number PerformDivide(List<Number> inputList)
+        public static dynamic PerformDivide(List<dynamic> inputList)
         {
             dynamic num;
 
@@ -61,11 +64,12 @@ namespace Calculator
                 throw;
             }
 
-            Number result = new Number(num);
+            Number result = new Number();
+            result.NumberConverter(num);
 
             Console.WriteLine(result.number.GetType().Name);
 
-            return result;
+            return result.number;
         }
     }
 }

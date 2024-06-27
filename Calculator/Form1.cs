@@ -1,5 +1,6 @@
 ﻿using Calculator.Classes;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -18,11 +19,9 @@ namespace Calculator
         public int multiplyCount = 0;
         public int divideCount = 0;
 
-        private int inputCount = 0;
-        List<Number> inputList = new List<Number>();
 
-        //private Number Result = new Number();
 
+        private CalcType currentCalculation;
 
         public RyansCalculator()
         {
@@ -101,8 +100,9 @@ namespace Calculator
         private void clearAllButton_Click(object sender, EventArgs e)
         {
             calcResultDisplay.Text = UserInput.ClearDisplay();
-            inputList.Clear();
-            resetCounts();
+            UserInput.inputList.Clear();        // TODO: create method to clear inputList instead. 
+            //resetCounts();
+            currentCalculation = CalcType.none;
         }
 
         private void deleteButton_Click(object sender, EventArgs e)
@@ -112,58 +112,84 @@ namespace Calculator
 
         private void negateButton_Click(object sender, EventArgs e)
         {
-            calcResultDisplay.Text = UserInput.NegateInput();
+            calcResultDisplay.Text = UserInput.NegateInput(calcResultDisplay.Text);
         }
+
+       /* private void FunctionButton(CalcType function)
+        {
+            
+            Number lastInput = new Number(UserInput.InputDisplay1);
+            calcResultDisplay.Text = UserInput.ClearDisplay();
+            inputList.Add(lastInput);
+            int numInputs = inputList.Count;
+
+            dynamic result = 0;
+
+            
+                switch (function)
+                {
+                    case CalcType.addition:
+                        currentCalculation = CalcType.addition;
+                        if (numInputs > 1)
+                        {
+                            result = Calculations.PerformAdd(inputList);
+                        }
+                        break;
+                    case CalcType.subtract:
+                        currentCalculation = CalcType.subtract;
+                        if (numInputs > 1)
+                        {
+                            result = Calculations.PerformSubtract(inputList);
+                        }
+                        break;
+                    case CalcType.multiply:
+                        currentCalculation = CalcType.multiply;
+                        if (numInputs > 1)
+                        {
+                            result = Calculations.PerformMultiply(inputList);
+                        }
+                        break;
+                    case CalcType.divide:
+                        currentCalculation = CalcType.divide;
+                        if (numInputs > 1)
+                        {
+                            result = Calculations.PerformDivide(inputList);
+                        }
+                        break;
+                    default:
+
+                        break;
+                }
+            if (inputList.Count > 1)
+            {
+
+                Number Result = new Number(result.number);
+                inputList.Clear();
+                //resetCounts();
+
+                inputList.Add(Result);
+
+                //currentCalculation = CalcType.none;
+                calcResultDisplay.Text = UserInput.UpdateDisplay(Result);
+                UserInput.ClearDisplay();
+
+            }
+        }*/
 
         private void addButton_Click(object sender, EventArgs e)
         {
-            
-            Number input = new Number(UserInput.InputDisplay1);
-            calcResultDisplay.Text = UserInput.ClearDisplay();
-            if (addCount == 0)
-            {
-                inputList.Add(input);
-            }
-            else
-            {
+            UserInput.AdditionHandler();
+            calcResultDisplay.Text = UserInput.InputDisplay1;
 
-               
-            }
-            addCount++;
+            //UserInput.UpdateDisplay(inputList[0]);
+
         }
 
         private void equalButton_Click(object sender, EventArgs e)
         {
-            // take current input and add it to the list
-            Number input = new Number(UserInput.InputDisplay1);
-            inputList.Add(input);
-
-            dynamic num = 0;
-            if(addCount ==1)
-            {
-                num = Calculations.PerformAdd(inputList);
-            }
-            else if (subCount ==1) 
-            {
-                num = Calculations.PerformSubtract(inputList);
-            }
-            else if (multiplyCount ==1)
-            {
-                num = Calculations.PerformMultiply(inputList);
-
-            }
-            else if (divideCount ==1)
-            {
-                num = Calculations.PerformDivide(inputList);
-            }
-
-            Number Result = new Number(num.number);
-            inputList.Clear();
-            resetCounts();
-
-            calcResultDisplay.Text = UserInput.UpdateDisplay(Result);
-
-
+            UserInput.EquateHandler();
+            calcResultDisplay.Text = UserInput.InputDisplay1;
         }
+
     }
 }

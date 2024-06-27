@@ -12,7 +12,7 @@ namespace Calculator.Classes
         private static DataType dataType;
         public dynamic number;              // type will be dynamically set based on inputstring passed. 
 
-        public Number(string inputString)
+        public void NumberConverter(string inputString)
         {
             this.inputString = inputString;
 
@@ -37,14 +37,14 @@ namespace Calculator.Classes
             }
         }
 
-        public Number(int number)
+        public void NumberConverter(int number)
         {
             this.number = number;
             dataType = DataType.intType;
         }
 
         
-        public Number(double number)
+        public void NumberConverter(double number)
         {
             this.number = number;
             dataType = DataType.doubleType; 

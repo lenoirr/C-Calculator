@@ -48,7 +48,6 @@
             this.clearButton = new System.Windows.Forms.Button();
             this.clearAllButton = new System.Windows.Forms.Button();
             this.negateButton = new System.Windows.Forms.Button();
-            this.calcDisplay = new System.Windows.Forms.Label();
             this.calcResultDisplay = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
@@ -269,14 +268,6 @@
             this.negateButton.UseVisualStyleBackColor = true;
             this.negateButton.Click += new System.EventHandler(this.negateButton_Click);
             // 
-            // calcDisplay
-            // 
-            this.calcDisplay.AutoSize = true;
-            this.calcDisplay.Location = new System.Drawing.Point(5, 37);
-            this.calcDisplay.Name = "calcDisplay";
-            this.calcDisplay.Size = new System.Drawing.Size(0, 13);
-            this.calcDisplay.TabIndex = 20;
-            // 
             // calcResultDisplay
             // 
             this.calcResultDisplay.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -295,7 +286,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(248, 364);
             this.Controls.Add(this.calcResultDisplay);
-            this.Controls.Add(this.calcDisplay);
             this.Controls.Add(this.negateButton);
             this.Controls.Add(this.clearAllButton);
             this.Controls.Add(this.divideButton);
@@ -345,7 +335,6 @@
         private System.Windows.Forms.Button clearButton;
         private System.Windows.Forms.Button clearAllButton;
         private System.Windows.Forms.Button negateButton;
-        private System.Windows.Forms.Label calcDisplay;
         private System.Windows.Forms.TextBox calcResultDisplay;
     }
 }
