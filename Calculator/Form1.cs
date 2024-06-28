@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Calculator
 {
@@ -19,22 +20,94 @@ namespace Calculator
         public int multiplyCount = 0;
         public int divideCount = 0;
 
-
-
-        private CalcType currentCalculation;
-
         public RyansCalculator()
         {
             InitializeComponent();
+            this.KeyPreview = true;
+            this.KeyDown += new KeyEventHandler(Calculator_KeyDown);
             calcResultDisplay.Text = UserInput.InputDisplay1;
+            this.AcceptButton = equalButton;
         }
-        private void resetCounts()
+
+            private void resetCounts()
         {
             addCount = 0;
             subCount = 0;
             multiplyCount = 0;
             divideCount = 0;
         }
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == Keys.Enter)
+            {
+                equalButton_Click(this, EventArgs.Empty);
+            }
+            else
+            {
+                Calculator_KeyDown(this, new KeyEventArgs(keyData));
+            }
+            return true;
+        }
+
+        private void Calculator_KeyDown(object sender, KeyEventArgs e)
+        
+       {
+            if (e.KeyCode == Keys.D0 || e.KeyCode == Keys.NumPad0)
+            {
+                Button0_Click(sender, e);
+            }
+            else if (e.KeyCode == Keys.D1 || e.KeyCode == Keys.NumPad1)
+            {
+                button1_Click(sender, e);
+            }
+            else if (e.KeyCode == Keys.D2 || e.KeyCode == Keys.NumPad2)
+            {
+                button2_Click(sender, e);
+            }
+            else if (e.KeyCode == Keys.D3 || e.KeyCode == Keys.NumPad3)
+            {
+                button3_Click(sender, e);
+            }
+            else if (e.KeyCode == Keys.D4 || e.KeyCode == Keys.NumPad4)
+            {
+                button4_Click(sender, e);
+            }
+            else if (e.KeyCode == Keys.D5 || e.KeyCode == Keys.NumPad5)
+            {
+                button5_Click(sender, e);
+            }
+            else if (e.KeyCode == Keys.D6 || e.KeyCode == Keys.NumPad6)
+            {
+                button6_Click(sender, e);
+            }
+            else if (e.KeyCode == Keys.D7 || e.KeyCode == Keys.NumPad7)
+            {
+                button7_Click(sender, e);
+            }
+            else if (e.KeyCode == Keys.D8 || e.KeyCode == Keys.NumPad8)
+            {
+                button8_Click(sender, e);
+            }
+            else if (e.KeyCode == Keys.D9 || e.KeyCode == Keys.NumPad9)
+            {
+                button9_Click(sender, e);
+            }
+            else if (e.KeyCode == Keys.Add)
+            {
+                addButton_Click(sender, e);
+            }
+            else if (e.KeyCode == Keys.Enter)
+            {
+                equalButton_Click(sender, e);
+
+            }
+            else if (e.KeyCode == Keys.Delete)
+            {
+                deleteButton_Click(sender, e);
+
+            }
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
             calcResultDisplay.Text = UserInput.UpdateDisplay('1');
@@ -82,7 +155,7 @@ namespace Calculator
 
         private void Button0_Click(object sender, EventArgs e)
         {
-            if (UserInput.InputDisplay1 !="0")
+            if (UserInput.InputDisplay1 != "0")
             {
                 calcResultDisplay.Text = UserInput.UpdateDisplay('0');
             }
@@ -97,12 +170,12 @@ namespace Calculator
         {
             calcResultDisplay.Text = UserInput.ClearDisplay();
         }
+
         private void clearAllButton_Click(object sender, EventArgs e)
         {
             calcResultDisplay.Text = UserInput.ClearDisplay();
-            UserInput.inputList.Clear();        // TODO: create method to clear inputList instead. 
-            //resetCounts();
-            currentCalculation = CalcType.none;
+            UserInput.inputList.Clear();
+            UserInput.currentCalculation = CalcType.none;
         }
 
         private void deleteButton_Click(object sender, EventArgs e)
@@ -115,80 +188,23 @@ namespace Calculator
             calcResultDisplay.Text = UserInput.NegateInput(calcResultDisplay.Text);
         }
 
-       /* private void FunctionButton(CalcType function)
-        {
-            
-            Number lastInput = new Number(UserInput.InputDisplay1);
-            calcResultDisplay.Text = UserInput.ClearDisplay();
-            inputList.Add(lastInput);
-            int numInputs = inputList.Count;
-
-            dynamic result = 0;
-
-            
-                switch (function)
-                {
-                    case CalcType.addition:
-                        currentCalculation = CalcType.addition;
-                        if (numInputs > 1)
-                        {
-                            result = Calculations.PerformAdd(inputList);
-                        }
-                        break;
-                    case CalcType.subtract:
-                        currentCalculation = CalcType.subtract;
-                        if (numInputs > 1)
-                        {
-                            result = Calculations.PerformSubtract(inputList);
-                        }
-                        break;
-                    case CalcType.multiply:
-                        currentCalculation = CalcType.multiply;
-                        if (numInputs > 1)
-                        {
-                            result = Calculations.PerformMultiply(inputList);
-                        }
-                        break;
-                    case CalcType.divide:
-                        currentCalculation = CalcType.divide;
-                        if (numInputs > 1)
-                        {
-                            result = Calculations.PerformDivide(inputList);
-                        }
-                        break;
-                    default:
-
-                        break;
-                }
-            if (inputList.Count > 1)
-            {
-
-                Number Result = new Number(result.number);
-                inputList.Clear();
-                //resetCounts();
-
-                inputList.Add(Result);
-
-                //currentCalculation = CalcType.none;
-                calcResultDisplay.Text = UserInput.UpdateDisplay(Result);
-                UserInput.ClearDisplay();
-
-            }
-        }*/
-
         private void addButton_Click(object sender, EventArgs e)
         {
             UserInput.AdditionHandler();
             calcResultDisplay.Text = UserInput.InputDisplay1;
-
-            //UserInput.UpdateDisplay(inputList[0]);
-
         }
 
         private void equalButton_Click(object sender, EventArgs e)
+        
         {
+            if (UserInput.currentCalculation == CalcType.none) { return; }
             UserInput.EquateHandler();
             calcResultDisplay.Text = UserInput.InputDisplay1;
+        }
+
+        private void RyansCalculator_Load(object sender, EventArgs e)
+        {
+
         }
 
     }

@@ -86,6 +86,7 @@
             // 
             // Button0
             // 
+            this.Button0.CausesValidation = false;
             this.Button0.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Button0.Location = new System.Drawing.Point(67, 303);
             this.Button0.Name = "Button0";
@@ -174,6 +175,7 @@
             // 
             // equalButton
             // 
+            this.equalButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.equalButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.equalButton.Location = new System.Drawing.Point(185, 303);
             this.equalButton.Name = "equalButton";
@@ -248,6 +250,7 @@
             // 
             // clearAllButton
             // 
+            this.clearAllButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.clearAllButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.clearAllButton.Location = new System.Drawing.Point(8, 71);
             this.clearAllButton.Name = "clearAllButton";
@@ -282,8 +285,10 @@
             // 
             // RyansCalculator
             // 
+            this.AcceptButton = this.equalButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.clearAllButton;
             this.ClientSize = new System.Drawing.Size(248, 364);
             this.Controls.Add(this.calcResultDisplay);
             this.Controls.Add(this.negateButton);
@@ -306,8 +311,11 @@
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
+            this.HelpButton = true;
+            this.KeyPreview = true;
             this.Name = "RyansCalculator";
             this.Text = "Ryans Calculator";
+            this.Load += new System.EventHandler(this.RyansCalculator_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

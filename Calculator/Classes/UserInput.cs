@@ -19,11 +19,12 @@ namespace Calculator
         //private static bool inputIsNegative = false;
         private static string inputDisplay1 = "0";
         private static DataType dataType;
+        private static bool resultDisplaying;   // tracks wether a calc result is being display - determines if input should be cleared or not.
 
         private static int inputCount = 0;
         public static List<dynamic> inputList = new List<dynamic>();
 
-        private static CalcType currentCalculation = CalcType.none;
+        public static CalcType currentCalculation = CalcType.none;
 
         public static string InputDisplay1
         {
@@ -33,10 +34,10 @@ namespace Calculator
 
         public static string UpdateDisplay(char num)
         {
-            if (UserInput.currentCalculation == CalcType.equate)
+            if (resultDisplaying)
             {
                 EmptyDisplay();
-                currentCalculation = CalcType.none;
+                resultDisplaying = false;
             }
             if (InputDisplay1 == "0")
             {
@@ -50,7 +51,7 @@ namespace Calculator
 
         public static string UpdateDisplay(Number number)
         {
-            if (UserInput.currentCalculation == CalcType.equate) {currentCalculation = CalcType.none;}
+            if (resultDisplaying) { resultDisplaying = false; }
             
             InputDisplay1 = number.ToString();
             //currentCalculation = CalcType.none;
@@ -135,6 +136,8 @@ namespace Calculator
                 else // 1+ 1 = 2 + type handler with any other calculation type
                 {
                     EquateHandler();
+                    UpdateInputList();
+                    currentCalculation = CalcType.addition;
                 }
             }
     }
@@ -167,7 +170,9 @@ namespace Calculator
             UpdateDisplay(result);   // still have to update this outside of the function
             inputList.Clear();
             //inputList.Add(result.number);
-            currentCalculation = CalcType.equate;
+            currentCalculation = CalcType.none;
+            resultDisplaying = true;
+
         }
 
 
