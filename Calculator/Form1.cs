@@ -29,7 +29,7 @@ namespace Calculator
             this.AcceptButton = equalButton;
         }
 
-            private void resetCounts()
+        private void resetCounts()
         {
             addCount = 0;
             subCount = 0;
@@ -96,6 +96,18 @@ namespace Calculator
             {
                 addButton_Click(sender, e);
             }
+            else if (e.KeyCode == Keys.Subtract)
+            {
+                subtractButton_Click(sender, e);
+            }
+            else if (e.KeyCode == Keys.Multiply)
+            {
+                multiplyButton_Click(sender, e);
+            }
+            else if (e.KeyCode == Keys.Divide)
+            {
+                divideButton_Click(sender, e);
+            }
             else if (e.KeyCode == Keys.Enter)
             {
                 equalButton_Click(sender, e);
@@ -105,6 +117,37 @@ namespace Calculator
             {
                 deleteButton_Click(sender, e);
 
+            }
+            else if (e.KeyCode == Keys.Escape)
+            {
+                clearAllButton_Click(sender, e);
+            }
+
+            else if (e.KeyCode == Keys.Enter)
+            {
+                equalButton_Click(sender, e);
+
+            }
+            else if (e.KeyCode == Keys.Delete)
+            {
+                deleteButton_Click(sender, e);
+
+            }
+            else if (e.KeyCode == Keys.Escape)
+            {
+                clearAllButton_Click(sender, e);
+            }
+            else if (e.KeyCode == Keys.Decimal)
+            {
+                decimalButton_Click(sender, e);
+            }
+            else if (e.KeyCode == Keys.Back)
+            {
+                deleteButton_Click(sender, e);
+            }
+            else if (e.KeyCode == Keys.OemMinus)
+            {
+                negateButton_Click(sender, e);
             }
         }
 
@@ -175,7 +218,10 @@ namespace Calculator
         {
             calcResultDisplay.Text = UserInput.ClearDisplay();
             UserInput.inputList.Clear();
+            UserInput.lastInputList.Clear();
+            UserInput.lastCalulation = UserInput.currentCalculation;
             UserInput.currentCalculation = CalcType.none;
+            UserInput.resultDisplaying = false;
         }
 
         private void deleteButton_Click(object sender, EventArgs e)
@@ -193,19 +239,27 @@ namespace Calculator
             UserInput.AdditionHandler();
             calcResultDisplay.Text = UserInput.InputDisplay1;
         }
-
+        private void subtractButton_Click(object sender, EventArgs e)
+        {
+            UserInput.SubtractionHandler();
+            calcResultDisplay.Text = UserInput.InputDisplay1;
+        }
+        private void multiplyButton_Click(object sender, EventArgs e)
+        {
+            UserInput.MultiplicationHandler();
+            calcResultDisplay.Text = UserInput.InputDisplay1;
+        }
+        private void divideButton_Click(object sender, EventArgs e)
+        {
+            UserInput.DivisionHandler();
+            calcResultDisplay.Text = UserInput.InputDisplay1;
+        }
         private void equalButton_Click(object sender, EventArgs e)
         
         {
-            if (UserInput.currentCalculation == CalcType.none) { return; }
+            //if (UserInput.currentCalculation == CalcType.none) { return; }
             UserInput.EquateHandler();
             calcResultDisplay.Text = UserInput.InputDisplay1;
         }
-
-        private void RyansCalculator_Load(object sender, EventArgs e)
-        {
-
-        }
-
     }
 }

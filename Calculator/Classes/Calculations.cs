@@ -19,7 +19,7 @@ namespace Calculator
             Number result = new Number();
             result.NumberConverter(num);
 
-            Console.WriteLine(result.number.GetType().Name);
+            //Console.WriteLine(result.number.GetType().Name);
 
             return result.number;
         }
@@ -28,11 +28,11 @@ namespace Calculator
         {
             dynamic num;
 
-            num = inputList[0].number - inputList[1].number;
+            num = inputList[0] - inputList[1];
             Number result = new Number();
             result.NumberConverter(num);
 
-            Console.WriteLine(result.number.GetType().Name);
+            //Console.WriteLine(result.number.GetType().Name);
 
             return result.number;
         }
@@ -41,11 +41,11 @@ namespace Calculator
         {
             dynamic num;
 
-            num = inputList[0].number * inputList[1].number;
+            num = inputList[0] * inputList[1];
             Number result = new Number();
             result.NumberConverter(num);
 
-            Console.WriteLine(result.number.GetType().Name);
+            //Console.WriteLine(result.number.GetType().Name);
 
             return result.number;
         }
@@ -56,7 +56,7 @@ namespace Calculator
 
             try
             {
-                num = inputList[0].number / inputList[1].number;
+                num = inputList[0] / inputList[1];
             }
             catch (DivideByZeroException ex)
             {
@@ -67,7 +67,7 @@ namespace Calculator
             Number result = new Number();
             result.NumberConverter(num);
 
-            Console.WriteLine(result.number.GetType().Name);
+            //Console.WriteLine(result.number.GetType().Name);
 
             return result.number;
         }

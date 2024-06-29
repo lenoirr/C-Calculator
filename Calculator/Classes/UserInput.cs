@@ -19,12 +19,14 @@ namespace Calculator
         //private static bool inputIsNegative = false;
         private static string inputDisplay1 = "0";
         private static DataType dataType;
-        private static bool resultDisplaying;   // tracks wether a calc result is being display - determines if input should be cleared or not.
+        public static bool resultDisplaying;   // tracks wether a calc result is being display - determines if input should be cleared or not.
 
         private static int inputCount = 0;
         public static List<dynamic> inputList = new List<dynamic>();
+        public static List<dynamic> lastInputList = new List<dynamic>();
 
         public static CalcType currentCalculation = CalcType.none;
+        public static CalcType lastCalulation = CalcType.none;
 
         public static string InputDisplay1
         {
@@ -118,9 +120,14 @@ namespace Calculator
             Number lastInput = new Number();
             lastInput.NumberConverter(InputDisplay1);
             inputList.Add(lastInput.number);
+            lastInputList.Add(lastInput.number);
 
         }
-
+        public static void ClearInputList()
+        {
+            lastInputList = new List<dynamic>(inputList);
+            inputList.Clear();
+        }
         public static void AdditionHandler ()
         {
             if (inputList.Count < 2)    // if not pressed 
@@ -142,15 +149,90 @@ namespace Calculator
             }
     }
 
+        public static void SubtractionHandler()
+        {
+            if (inputList.Count < 2)
+            {
+                if (currentCalculation == CalcType.none || currentCalculation == CalcType.equate)
+                {
+                    UpdateInputList();
+                    ClearDisplay();
+                    currentCalculation = CalcType.subtract;
+                }
+                else
+                {
+                    EquateHandler();
+                    UpdateInputList();
+                    currentCalculation = CalcType.subtract;
+                }
+            }
+        }
+
+        public static void MultiplicationHandler()
+        {
+            if (inputList.Count < 2)
+            {
+                if (currentCalculation == CalcType.none || currentCalculation == CalcType.equate)
+                {
+                    UpdateInputList();
+                    ClearDisplay();
+                    currentCalculation = CalcType.multiply;
+                }
+                else
+                {
+                    EquateHandler();
+                    UpdateInputList();
+                    currentCalculation = CalcType.multiply;
+                }
+            }
+        }
+
+        public static void DivisionHandler()  
+        {
+            if (inputList.Count < 2)
+            {
+                if (currentCalculation == CalcType.none || currentCalculation == CalcType.equate)
+                {
+                    UpdateInputList();
+                    ClearDisplay();
+                    currentCalculation = CalcType.divide;
+                }
+                else
+                {
+                    EquateHandler();
+                    UpdateInputList();
+                    currentCalculation = CalcType.divide;
+                }
+            }
+        }
+
         public static void EquateHandler()
         {
             Number result = new Number();   // creates null instance of result;
-            UpdateInputList(); // updating inputList[1]
-            if (inputList.Count != 2)
+
+            List<dynamic> processData = new List<dynamic>();
+
+            //bool repeatCalculation;
+
+            CalcType calcToPerform = CalcType.none;
+
+            if (resultDisplaying)   // repeat last calculation
             {
-                return;
+                //repeatCalculation = true;
+                UpdateInputList();
+                inputList.Add(lastInputList[1]);
+                calcToPerform = lastCalulation;
             }
-            switch (currentCalculation) // TODO: This typing for Number is not ideal
+            else if (currentCalculation != CalcType.none && inputList.Count == 1)   // perform current calculation
+            {
+                //repeatCalculation = false;
+                UpdateInputList();
+                calcToPerform = currentCalculation;
+
+            }
+            else { return; }    // why you pressing this right now?
+
+            switch (calcToPerform) // TODO: This typing for Number is not ideal
             {
                 case CalcType.addition:
                     result.NumberConverter(Calculations.PerformAdd(inputList));
@@ -167,9 +249,13 @@ namespace Calculator
                 default:
                     break;
             }
+
             UpdateDisplay(result);   // still have to update this outside of the function
-            inputList.Clear();
-            //inputList.Add(result.number);
+            ClearInputList();
+            if (currentCalculation != CalcType.none)
+            {
+                lastCalulation = currentCalculation;
+            }
             currentCalculation = CalcType.none;
             resultDisplaying = true;
 
