@@ -1,2 +1,2 @@
 # C-Calculator
-C# beginner prject
+C# beginner project
