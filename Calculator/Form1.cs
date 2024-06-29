@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,11 +25,40 @@ namespace Calculator
         public RyansCalculator()
         {
             InitializeComponent();
+            initButton();
             this.KeyPreview = true;
             this.KeyDown += new KeyEventHandler(Calculator_KeyDown);
             calcResultDisplay.Text = UserInput.InputDisplay1;
             this.AcceptButton = equalButton;
         }
+        public class RoundButton : System.Windows.Forms.Button
+        {
+            protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
+            {
+                GraphicsPath grPath = new GraphicsPath();
+                grPath.AddEllipse(0, 0, ClientSize.Width, ClientSize.Height);
+                this.Region = new System.Drawing.Region(grPath);
+                base.OnPaint(e);
+            }
+        }
+
+        private void initButton()
+        {
+            string path = Path.Combine(
+                Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName,
+                "Resources",
+                "deleteButtonImage.jpg");
+            int square = deleteButton.Height - 4;
+            Image resizedImage =
+                new Bitmap(
+                    Bitmap.FromFile(path),
+                    new Size(square, square));
+
+            deleteButton.Image = resizedImage;
+            deleteButton.ImageAlign = ContentAlignment.MiddleLeft;
+            deleteButton.TextAlign = ContentAlignment.MiddleRight;
+        }
+
 
         private void resetCounts()
         {

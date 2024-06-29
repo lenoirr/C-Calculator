@@ -18,6 +18,7 @@ namespace Calculator
     {
         //private static bool inputIsNegative = false;
         private static string inputDisplay1 = "0";
+        private static string historyDisplay = string.Empty;
         private static DataType dataType;
         public static bool resultDisplaying;   // tracks wether a calc result is being display - determines if input should be cleared or not.
 
@@ -60,6 +61,11 @@ namespace Calculator
             return InputDisplay1;
         }
 
+        public static string UpdateHistoryDisplay()
+        {
+            historyDisplay = inputList[0].ToString() + currentCalculation.ToString() + inputList[1].ToString();
+            return historyDisplay;
+        }
 
         public static string ClearDisplay()
         {
